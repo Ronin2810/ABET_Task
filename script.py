@@ -109,30 +109,31 @@ if uploaded_file is not None:
     title = st.text_input("Enter a title for the charts")
 
     # Extract data
-    semesters = df['Semester']
-    examinees_purdueme = df['Number of examinees taking the test']
-    examinees = df['ABET Comparator (number of examinees taking)']
-    ratio_score = df[' Ratio Score (*4)']
-    scaled_score = df[' Scaled Score (*4)']
-    uncertainties = df['Uncertainty Range for Scaled Score (*4)']
+    if title:
+        semesters = df['Semester']
+        examinees_purdueme = df['Number of examinees taking the test']
+        examinees = df['ABET Comparator (number of examinees taking)']
+        ratio_score = df[' Ratio Score (*4)']
+        scaled_score = df[' Scaled Score (*4)']
+        uncertainties = df['Uncertainty Range for Scaled Score (*4)']
 
-    # Generate plots
-    f1 = create_examinees_purdueme_plot(semesters, examinees_purdueme, title)
-    f2 = create_examinee_ABET_plot(semesters, examinees, title)
-    f3 = create_ratio_score_plot(semesters, ratio_score, title)
-    f4 = create_scaled_score_plot_with_uncertainty_sticks(semesters, scaled_score, uncertainties, title)
+        # Generate plots
+        f1 = create_examinees_purdueme_plot(semesters, examinees_purdueme, title)
+        f2 = create_examinee_ABET_plot(semesters, examinees, title)
+        f3 = create_ratio_score_plot(semesters, ratio_score, title)
+        f4 = create_scaled_score_plot_with_uncertainty_sticks(semesters, scaled_score, uncertainties, title)
 
-    # Display plots
-    st.pyplot(f1)
-    st.pyplot(f2)
-    st.pyplot(f3)
-    st.pyplot(f4)
+        # Display plots
+        st.pyplot(f1)
+        st.pyplot(f2)
+        st.pyplot(f3)
+        st.pyplot(f4)
 
-    # Download plots
-    plots = {"Examinees (Purdue ME)": f1, "Examinees (ABET)": f2, "Ratio Score": f3, "Scaled Score": f4}
-    for name, fig in plots.items():
-        buf = io.BytesIO()
-        fig.savefig(buf, format="png")
-        buf.seek(0)
-        st.download_button(label=f"Download {name} Plot", data=buf, file_name=f"{name.replace(' ', '_').lower()}.png", mime="image/png")
-        plt.close(fig)
+        # Download plots
+        plots = {"Examinees (Purdue ME)": f1, "Examinees (ABET)": f2, "Ratio Score": f3, "Scaled Score": f4}
+        for name, fig in plots.items():
+            buf = io.BytesIO()
+            fig.savefig(buf, format="png")
+            buf.seek(0)
+            st.download_button(label=f"Download {name} Plot", data=buf, file_name=f"{name.replace(' ', '_').lower()}.png", mime="image/png")
+            plt.close(fig)
