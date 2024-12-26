@@ -106,7 +106,7 @@ if uploaded_file is not None:
     st.success("File uploaded successfully!")
 
     # User inputs title
-    title = st.text_input("Enter a title for the charts")
+    title = st.text_input("Enter a title for the charts",value=None)
 
     # Extract data
     if title:
